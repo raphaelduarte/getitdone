@@ -83,11 +83,6 @@ export default function KanbanBoard({showNewTaskDialog, setShowNewTaskDialog}) {
     // Esse código abaixo está fazendo um looping
     // setNewTeamDocStore(teamDoc)
 
-    
-    console.log(userDoc)
-    console.log(teamDoc)
-    console.log(userDocStore)
-    console.log(userDoc && userDoc == userDocStore)
 
     useEffect(() => {
         if (teamDoc && teamDoc != newTeamDocStore) {
@@ -100,8 +95,6 @@ export default function KanbanBoard({showNewTaskDialog, setShowNewTaskDialog}) {
             setNewTeamDocStore(teamDoc)
         }
     }, [teamDoc, newTeamDocStore])
-    
-    console.log(teamDoc)
 
     useEffect(() => {
         if (userDoc && userDoc != userDocStore) {
@@ -120,16 +113,12 @@ export default function KanbanBoard({showNewTaskDialog, setShowNewTaskDialog}) {
                 return acc
             }, {})
 
-            console.log("Executou o useEffect quando o tasks foi atualizado")
-
             const columnsTaskIds = {
                 "Backlog": [...teamDoc["column-1"]],
                 "A fazer": [...teamDoc["column-2"]],
                 "Em progresso": [...teamDoc["column-3"]],
                 "Em revisao": [...teamDoc["column-4"]],
             }
-
-            console.log(teamDoc)
 
             const newState = {
                 ...state,
@@ -156,12 +145,8 @@ export default function KanbanBoard({showNewTaskDialog, setShowNewTaskDialog}) {
                 columnOrder: initialData.columnOrder,
             }
 
-            console.log(teamDoc)
-            console.log(newState)
-
             setState(newState)
         }
-        console.log("Executou o useEffect quando tasks e teamDoc foram atualizado")
     }, [tasks, teamDoc])
 
 

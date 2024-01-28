@@ -1,7 +1,8 @@
-import React, {useEffect, useState, useLayoutEffect} from 'react'
+import React, {useEffect, useState, useLayoutEffect, useContext} from 'react'
 import { useCollection } from '@/hooks/useCollection'
 import { Skeleton } from "@/shadcn/components/ui/skeleton"
 import { useAuthContext } from '@/hooks/useAuthContext'
+import { useUsersContext } from '@/hooks/useUsersContext'
 
 
 function MembersSkeleton() {
@@ -13,11 +14,12 @@ function MembersSkeleton() {
     )
 }
 
-export default function MembersBar({setSelectedChat, setChatIsOpen, chats, users}) {
+export default function MembersBar({setSelectedChat, setChatIsOpen, chats}) {
 
     
 
     const {user} = useAuthContext()
+    const { users } = useUsersContext()
 
     const openChat = (userId, userName) => {
         // TODO: essa função irá abrir o chat com o id userID

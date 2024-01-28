@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { Avatar, AvatarFallback, AvatarImage } from "@/shadcn/components/ui/avatar"
 import { Separator } from '@/shadcn/components/ui/separator'
 import { Input } from '@/shadcn/components/ui/input'
@@ -11,17 +11,17 @@ import getInitials from '@/utils/getInitials'
 import { useFirestore } from '@/hooks/useFirestore'
 import { ChevronLeftIcon, Cross1Icon } from '@radix-ui/react-icons'
 import { auth, timestamp } from '@/firebase/config'
-
+import { useUsersContext } from '@/hooks/useUsersContext'
 
 export default function Chat({
     selectedChat,
     chats,
     setSelectedChat,
     setChatIsOpen,
-    users
 }) {
 
     const { user } = useAuthContext()
+    const { users } = useUsersContext()
 
     const {
         updateDocument: updateChat,
@@ -87,7 +87,7 @@ export default function Chat({
                         id: payload,
                         participants: [...selectedChat.participants]
                     }
-                } 
+                }
                 );
 
                 await createMessage(selectedChat?.id || payload, "messages", {
@@ -228,41 +228,41 @@ export default function Chat({
                             </p>
                         )
                         : chats?.filter(chat => chat.participants.includes(user.uid))
-                        .map((chat) => {
-                            const chatUser = users.find(
-                                (u) => (chat.participants.includes(u.id) && u.id !== user.uid)
-                            )
-                            return (
-                                <div key={`chat-${chat.id}`}>
-                                    <div
-                                        onClick={() => openChat(chat, chatUser.name)}
-                                        role="button"
-                                        className="relative"
-                                    >
-                                        <div className='flex gap-2.5 items-center'>
-                                            <Avatar>
-                                                <AvatarImage src="" />
-                                                <AvatarFallback>
-                                                    {getInitials(chatUser.name)}
-                                                </AvatarFallback>
-                                            </Avatar>
-                                            <div>
-                                                <p className='font-medium'>{chatUser.name}</p>
-                                                <p className='text-muted-foreground text-sm'>
-                                                    {chat.lastMessage.content}
+                            .map((chat) => {
+                                const chatUser = users.find(
+                                    (u) => (chat.participants.includes(u.id) && u.id !== user.uid)
+                                )
+                                return (
+                                    <div key={`chat-${chat.id}`}>
+                                        <div
+                                            onClick={() => openChat(chat, chatUser.name)}
+                                            role="button"
+                                            className="relative"
+                                        >
+                                            <div className='flex gap-2.5 items-center'>
+                                                <Avatar>
+                                                    <AvatarImage src="" />
+                                                    <AvatarFallback>
+                                                        {getInitials(chatUser.name)}
+                                                    </AvatarFallback>
+                                                </Avatar>
+                                                <div>
+                                                    <p className='font-medium'>{chatUser.name}</p>
+                                                    <p className='text-muted-foreground text-sm'>
+                                                        {chat.lastMessage.content}
+                                                    </p>
+                                                </div>
+                                                <p className='absolute top-1 right-2 text-muted-foreground text-xs'>
+                                                    {formatMessageDate(chat.lastMessage.createdAt.toDate())}
                                                 </p>
                                             </div>
-                                            <p className='absolute top-1 right-2 text-muted-foreground text-xs'>
-                                                {formatMessageDate(chat.lastMessage.createdAt.toDate())}
-                                            </p>
                                         </div>
+                                        <Separator key={`separator-${chat.id}`} className="bg-muted-foreground/10 my-4" />
                                     </div>
-                                    <Separator key={`separator-${chat.id}`} className="bg-muted-foreground/10 my-4" />
-                                </div>
 
-                            )
-                        }
-                        ) || (
+                                )
+                            }
+                            ) || (
                             <p className='text-foreground/50 text-sm'>Não há conversas para exibir</p>
                         )}
                 </ScrollArea>

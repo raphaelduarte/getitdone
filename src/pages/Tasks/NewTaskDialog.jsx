@@ -44,6 +44,7 @@ export default function NewTaskDialog({
     const { addSubDocument: addTask } = useFirestore("teams")
     const { toast } = useToast()
     const { userDoc } = useUserContext()
+    console.log(userDoc)
     const { users } = useUsersContext()
     const { document: teamDoc } = useDocument("teams", userDoc.teamId)
     const { updateDocument: updateTeam } = useFirestore("teams")

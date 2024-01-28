@@ -26,10 +26,18 @@ import useMediaQuery from './hooks/useMediaQuery'
 import Topbar from './components/Topbar'
 
 const UserDocWrapper = ({ user, children }) => {
+
+  const { documents: chats } = useCollection("chats",[
+    "participants",
+    "array-contains",
+    user.uid
+  ])
+
   const { document: userDoc } = useDocument("users", user?.uid)
     if(!userDoc) return <Loading />
-    return children(userDoc)
+    return children(userDoc, chats)
 }
+
 
 function App() {
 
@@ -38,32 +46,31 @@ function App() {
   const [selectedChat, setSelectedChat] = useState(null)
   const [rerender, setRerender] = useState(false)
 
-  const { documents: chats } = useCollection("chats")
-
   const { documents: users } = useCollection("users")
 
   const isMobile = useMediaQuery("(max-width: 640px)")
 
-  if(!chats) return <Loading />
-
   if (!authIsReady) return <Loading />
 
   return (
-    <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
+    <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme" user={user}>
       <div className="App flex flex-col sm:flex-row">
         <Toaster />
-        <BrowserRouter>
+        <BrowserRouter user={user}>
           {
-            user ?
+            user ? (
               <UserDocProvider user={user}>
                 
                   <UserDocWrapper user={user}>
-                    {(userDoc) => (
+                    {(userDoc, chats) => (
                       <UsersProvider userDoc={userDoc}>
                         <>
-                          {isMobile ? <Topbar/> : (<Sidebar
-                          rerender={rerender}
-                          setRerender={setRerender} />)}
+                          {isMobile ? <Topbar userDoc={userDoc}/> 
+                            : (<Sidebar
+                              userDoc={userDoc}
+                              rerender={rerender}
+                              setRerender={setRerender} 
+                            />)}
   
                           <div className="mt-12 sm:mt-0 flex-grow">
                             <Routes>
@@ -80,21 +87,22 @@ function App() {
                           </div>
                         
                           {!isMobile && <MembersBar
+                            userDoc={userDoc}
                             setSelectedChat={setSelectedChat}
                             setChatIsOpen={setChatIsOpen}
                             chats={chats}
-                            users={users}
                             />}
                           {chatIsOpen &&
                             <Chat
+                              userDoc={userDoc}
                               selectedChat={selectedChat}
                               chats={chats}
-                              users={users}
                               setSelectedChat={setSelectedChat}
                               setChatIsOpen={setChatIsOpen}
                             />}
   
                           <ChatButton
+                            userDoc={userDoc}
                             setChatIsOpen={setChatIsOpen}
                             setSelectedChat={setSelectedChat}
                             selectedChat={selectedChat}
@@ -106,13 +114,13 @@ function App() {
                     )}
                   </UserDocWrapper>
                 
-              </UserDocProvider> :
+              </UserDocProvider> ) : (
               <Routes>
                 <Route path="/login" element={<Login />} />
                 <Route path="/signup" element={<Signup />} />
                 <Route path="/*" element={<Signup />} />
               </Routes>
-          }
+          )}
 
         </BrowserRouter>
       </div>

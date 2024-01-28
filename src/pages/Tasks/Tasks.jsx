@@ -53,8 +53,8 @@ export default function Tasks() {
                             onClick={() => setSearchStore("")}
                         />
                     </div>
-                    <Button c
-                        lassName=' text-md min-w-[40%]'
+                    <Button 
+                        className=' text-md min-w-[40%]'
                         onClick={() => setSearchStore("")}
                     >
                         <PlusIcon className='w-5 h-5 mr-2' />

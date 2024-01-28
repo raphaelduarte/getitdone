@@ -21,7 +21,11 @@ export default function Logo({ size, justify }) {
             onClick={navigateToHome}
         >
             <img src={LogoSvg} className={height} />
-            <h2 className='text-2xl tracking-widest font-medium'>psico<span className='text-primary'>wise</span></h2>
+            <h2 className='text-2xl tracking-widest font-medium'>
+                psico
+            <span className='text-primary'>
+                wise
+            </span></h2>
         </div>
     )
 }

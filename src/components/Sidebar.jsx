@@ -146,7 +146,8 @@ export default function Sidebar({rerender, setRerender}) {
                     >
                         {option.icon}
                         <p className={`text-md/90 ${
-                            selectedPriorityStore == option.value ? "font-semibold" : ""
+                            selectedPriorityStore == option.value ? "font-semibold" 
+                            : ""
                         }`}>
                         {option.name}
                         </p>
@@ -166,7 +167,12 @@ export default function Sidebar({rerender, setRerender}) {
                     Central de ajuda
                 </Button>
 
-                <Button className="opacity-75" size="noPadding" variant='ghost' onClick={logout}>
+                <Button 
+                    className="opacity-75" 
+                    size="noPadding" 
+                    variant='ghost' 
+                    onClick={logout}
+                >
                     <ExitIcon className='w-4 h-4 mr-2' />
                     Sair da conta
                 </Button>

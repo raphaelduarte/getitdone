@@ -33,17 +33,31 @@ export default function Signup() {
             <div className="flex flex-col justify-center w-1/2 px-20">
                 <div>
                     <h1 className='text-3xl font-semibold'>Cadastre-se agora</h1>
-                    <p className='mt-4 text-muted-foreground font-normal text-lg'>Crie sua conta agora mesmo</p>
+                    <p className='mt-4 text-muted-foreground font-normal text-lg'>
+                        Crie sua conta agora mesmo
+                        </p>
 
                     <form className='mt-10' onSubmit={handleSubmit}>
                         <p className='text-muted-foreground mb-2.5'>Nome Completo</p>
-                        <Input type="text" autoComplete="name" value={fullName} onChange={(e) => setFullName(e.target.value)} />
+                        <Input 
+                            type="text" 
+                            autoComplete="name" 
+                            value={fullName} 
+                            onChange={(e) => setFullName(e.target.value)} />
 
                         <p className='mt-5 text-muted-foreground mb-2.5'>Email</p>
-                        <Input type="email" autoComplete="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+                        <Input 
+                            type="email" 
+                            autoComplete="email" 
+                            value={email} 
+                            onChange={(e) => setEmail(e.target.value)} />
 
                         <p className='mt-5 text-muted-foreground mb-2.5'>Senha</p>
-                        <Input type="password" autoComplete="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+                        <Input 
+                            type="password" 
+                            autoComplete="password" 
+                            value={password} 
+                            onChange={(e) => setPassword(e.target.value)} />
 
                         <Button size="xl" className='mt-10 text-lg w-full' disabled={isPending}>
                             {isPending && (<ReloadIcon className='w-5 h-5 mr-2 animate-spin' />)}
